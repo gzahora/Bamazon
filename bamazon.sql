@@ -32,10 +32,10 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Portable Speakers", "Electronics", 115, 16);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Men's Wristwatch with Brown Leather Band", "Fashion", 135, 28);
+VALUES ("Men's Analog Watch", "Fashion", 135, 28);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("5-Pack of White V-Neck Ts (Size: M)", "Fashion", 17, 31);
+VALUES ("5-Pack of White V-Neck Ts", "Fashion", 17, 31);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Beef Jerkey", "Food & Beverage", 6, 42);
@@ -44,6 +44,6 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Ibuprofen (600 count)", "Health & Beauty", 12, 63);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("2-in-1 Shampoo and Conditioner", "Health & Beauty", 9, 1);
+VALUES ("2-in-1 Shampoo", "Health & Beauty", 9, 1);
 
 SELECT * FROM products

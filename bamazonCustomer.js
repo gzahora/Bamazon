@@ -8,6 +8,8 @@ var inquirer = require("inquirer");
 
 var mysql = require("mysql");
 
+var Table = require("cli-table");
+
 var connection = mysql.createConnection({
     host: "localhost",
 
@@ -92,7 +94,7 @@ var connection = mysql.createConnection({
 
 // mainInq();
 
-function bidAuction() {
+function userShops() {
     // query the database for all items being auctioned
     connection.query("SELECT * FROM products", function(err, results) {
       if (err) throw err;
@@ -100,8 +102,8 @@ function bidAuction() {
       inquirer
         .prompt([
           {
-            name: "choice",
             type: "rawlist",
+            name: "choice",
             choices: function() {
               var productsStocked = [];
               for (var i = 0; i < results.length; i++) {
@@ -112,8 +114,8 @@ function bidAuction() {
             message: "What product would you like to buy?"
           },
           {
+            type: "number",
             name: "quantity",
-            type: "input",
             message: "How many would you like to buy?"
           }
         ])
@@ -127,7 +129,7 @@ function bidAuction() {
           }
   
           // determine if there is enough of the porduct in stock
-          if (shoppingCart.stock_quantity > parseInt(input.quantity)) {
+          if (shoppingCart.stock_quantity > (input.quantity)) {
             // qauntity was low enough, so update db, let the user know, and start over
             connection.query(
               "UPDATE products SET ? WHERE ?",
@@ -142,17 +144,36 @@ function bidAuction() {
               function(error) {
                 if (error) throw err;
                 console.log("Purchase Successful!");
-                bidAuction();
+                userShops();
               }
             );
           }
           else {
             // Bamazon is out of stock, so apologize and start over
-            console.log("There is an insufficient amount of stock left for your item. Please purchase fewer of that item");
-            bidAuction();
+            console.log("There are just " + shoppingCart.stock_quantity + " of " + input.choice + " left. Please purchase fewer of that item");
+            userShops();
           }
         });
     });
   }
 
-  bidAuction ();
+  function displayProducts() {
+    console.log("Selecting all products...\n");
+    connection.query("SELECT * FROM products", function(err, res) {
+        if(err) throw err;
+		var displayTable = new Table ({
+			head: ["Item ID", "Product Name", "Category", "Price", "Quantity"],
+			colWidths: [10,30,25,10,14]
+		});
+		for(var i = 0; i < res.length; i++){
+			displayTable.push(
+				[res[i].item_id,res[i].product_name, res[i].department_name, "$" + res[i].price, res[i].stock_quantity]
+				);
+		}
+		console.log(displayTable.toString());
+    connection.end();
+    });
+  }
+
+  displayProducts();
+  userShops ();
