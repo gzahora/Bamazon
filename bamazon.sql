@@ -46,5 +46,37 @@ VALUES ("Ibuprofen (600 count)", "Health & Beauty", 12, 63);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("2-in-1 Shampoo", "Health & Beauty", 9, 1);
 
-SELECT * FROM products
+CREATE TABLE departments (
+  department_id INT NOT NULL AUTO_INCREMENT,
+  department_name VARCHAR(45) NULL,
+  over_head_costs INT NOT NULL,
+  product_sales INT DEFAULT 0,
+  total_profit INT DEFAULT 0,
+  PRIMARY KEY (department_id)
+);
 
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Home & Garden", 200);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Food & Beverage", 180);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Electronics", 340);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Fashion", 270);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Health & Beauty", 140);
+
+SELECT * FROM products;
+SELECT * FROM departments;
+
+
+SELECT department_id, departments.department_name, over_head_costs, SUM(product_sales) AS product_sales,
+	SUM(product_sales) - over_head_costs AS total_profit
+FROM departments
+INNER JOIN products
+ON departments.department_name = products.department_name
+GROUP BY department_id;
