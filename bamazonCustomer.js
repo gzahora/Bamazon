@@ -91,7 +91,7 @@ function userShops() {
           }
   
           // determine if there is enough of the porduct in stock
-          if (shoppingCart.stock_quantity > (input.quantity)) {
+          if (shoppingCart.stock_quantity >= (input.quantity)) {
             // qauntity was low enough, so update db, let the user know, and start over
             connection.query(
               "UPDATE products SET ? WHERE ?",
@@ -143,4 +143,4 @@ function exit() {
     return console.log("You have exited Bamazon. Goodbye.")
 };
 
-  customerPortal();
+  module.exports = customerPortal();

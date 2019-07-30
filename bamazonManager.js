@@ -200,6 +200,4 @@ function exit() {
     return console.log("You have exited the Bamazon Manager Portal. Goodbye.")
 };
 
-managerPortal();
-
-
+module.exports = managerPortal();
