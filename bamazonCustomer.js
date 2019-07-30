@@ -58,7 +58,7 @@ var Customer = {
   //---------------------------------------------------------------------------------------------------------------------------
   //---------------------------------------------------------------------------------------------------------------------------
 
-userShops: function () {
+  userShops: function () {
     // query the database for all items being auctioned
     connection.query("SELECT * FROM products", function (err, results) {
       if (err) throw err;
@@ -108,6 +108,7 @@ userShops: function () {
               function (error) {
                 if (error) throw err;
                 console.log("Your purchase of " + input.quantity + " " + input.choice + "s at a price of $" + shoppingCart.price + " each was successful! Your total came to " + "$" + (input.quantity * shoppingCart.price) + ". Thank you for shopping at Bamazon");
+                Customer.updateSales();
                 Customer.customerPortal();
               }
             );
@@ -122,7 +123,7 @@ userShops: function () {
   },
 
 
-displayCatalog: function () {
+  displayCatalog: function () {
     console.log("Selecting all products...\n");
     connection.query("SELECT * FROM products", function (err, res) {
       if (err) throw err;
@@ -141,10 +142,26 @@ displayCatalog: function () {
   },
 
 
-exit: function () {
+  exit: function () {
     connection.end();
     return console.log("You have exited Bamazon. Goodbye.")
-  }
+  },
 
+  updateSales: function () {
+    connection.query(
+      "UPDATE departments SET ? WHERE ?",
+      [
+        {
+          product_sales: (product_sales + (Customer.userShops.input.quantity * Customer.userShops.shoppingCart.price))
+        },
+        {
+          department_name: Customer.userShops.shoppingCart.department_name
+        }
+      ],
+      function (err, res) {
+        if (err) throw err;
+        console.log(res)
+      });
+  }
 };
-module.exports = Customer;
+  module.exports = Customer;

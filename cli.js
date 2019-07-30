@@ -2,6 +2,7 @@ var inquirer = require("inquirer");
 
 var manager = require("./bamazonManager");
 var customer = require("./bamazonCustomer");
+var supervisor = require("./bamazonSupervisor");
 
 
 // Prompt for term
@@ -11,7 +12,7 @@ function bamazonWelcome(){
         {
             type: "list",
             name: "userInput",
-            choices: ["Customer Portal", "Manager Portal", "EXIT"],
+            choices: ["Customer Portal", "Manager Portal", "Supervisor Portal", "EXIT"],
             message: "Welcome to Bamazon! How would you like to proceed?"
         }
         // After the prompt, store the user's response in a variable called location.
@@ -22,6 +23,9 @@ function bamazonWelcome(){
                 break;
             case "Manager Portal":
                 manager.managerPortal();
+                break;
+            case "Supervisor Portal":
+                supervisor.supervisorPortal();
                 break;
             case "EXIT":
                 exitHere();
