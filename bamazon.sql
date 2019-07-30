@@ -32,7 +32,7 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Portable Speakers", "Electronics", 115, 16);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Men's Analog Watch", "Fashion", 135, 28);
+VALUES ("Men's Analog Watch", "Fashion", 135, 3);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("5-Pack of White V-Neck Ts", "Fashion", 17, 31);

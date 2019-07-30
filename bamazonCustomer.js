@@ -24,75 +24,37 @@ var connection = mysql.createConnection({
     database: "bamazon_db"
 });
 
-// function mainInq() {
+function customerPortal() {
 
-//     inquirer.prompt([
+    inquirer.prompt([
 
-//         {
-//             type: "list",
-//             name: "userInput",
-//             choices: ["POST", "BID", "EXIT"],
-//             message: "How would you like to proceed?"
-//         }
+        {
+            type: "list",
+            name: "userInput",
+            choices: ["Display Catalog", "Shop", "EXIT"],
+            message: "How would you like to proceed?"
+        }
 
-//         // After the prompt, store the user's response in a variable called location.
-//     ]).then(function (action) {
-//         switch (action.userInput) {
-//             case "POST":
-//                 postThis();
-//                 break;
-//             case "BID":
-//                 bidThis();
-//                 break;
-//             case "EXIT":
-//                 exit();
-//                 break;
-//             default:
-//                 console.log("An error occurred! Unrecognized input.");
-//         }
-//     });
-// }
+        // After the prompt, store the user's response in a variable called location.
+    ]).then(function (action) {
+        switch (action.userInput) {
+            case "Display Catalog":
+                displayCatalog();
+                break;
+            case "Shop":
+                userShops();
+                break;
+            case "EXIT":
+                exit();
+                break;
+            default:
+                console.log("An error occurred! Unrecognized input.");
+        }
+    });
+}
 
-// function postThis() {
-//     inquirer.prompt([
-//         {
-//             type: "input",
-//             name: "postItem",
-//             message: "Name the item you want to post"
-//         },
-//         {
-//             type: "input",
-//             name: "postCat",
-//             message: "Name the category of the item you're posting"
-//         },
-//         {
-//             type: "input",
-//             name: "startingBid",
-//             message: "What is the lowest amount of money you'd accept for this item?"
-//         },
-
-
-//     ]).then(function (action) {
-//         connection.query("INSERT INTO auctions SET ?",
-//             {
-//                 item: action.postItem,
-//                 category: action.postCat,
-//                 highest_bid: action.startingBid,
-//             },
-//             function (err, res) {
-//                 if (err) throw err;
-//                 console.log(res.affectedRows + " item inserted!\n");
-//                 connection.end();
-//                 mainInq();
-//             })
-//         })   
-//     };
-
-// function exit() {
-//     return console.log("You have exited the auction. Goodbye.")
-// };
-
-// mainInq();
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
 
 function userShops() {
     // query the database for all items being auctioned
@@ -143,21 +105,21 @@ function userShops() {
               ],
               function(error) {
                 if (error) throw err;
-                console.log("Purchase Successful!");
-                userShops();
+                console.log("Your purchase of " + input.quantity + " " + input.choice + "s at a price of $" + shoppingCart.price + " each was successful! Your total came to " + "$" + (input.quantity * shoppingCart.price) + ". Thank you for shopping at Bamazon");
+                customerPortal();
               }
             );
           }
           else {
             // Bamazon is out of stock, so apologize and start over
             console.log("There are just " + shoppingCart.stock_quantity + " of " + input.choice + " left. Please purchase fewer of that item");
-            userShops();
+            customerPortal();
           }
         });
     });
   }
 
-  function displayProducts() {
+  function displayCatalog() {
     console.log("Selecting all products...\n");
     connection.query("SELECT * FROM products", function(err, res) {
         if(err) throw err;
@@ -171,9 +133,14 @@ function userShops() {
 				);
 		}
 		console.log(displayTable.toString());
-    connection.end();
+    customerPortal();
     });
   }
 
-  displayProducts();
-  userShops ();
+  
+function exit() {
+    connection.end();
+    return console.log("You have exited Bamazon. Goodbye.")
+};
+
+  customerPortal();
