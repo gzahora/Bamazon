@@ -47,3 +47,4 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("2-in-1 Shampoo", "Health & Beauty", 9, 1);
 
 SELECT * FROM products
+

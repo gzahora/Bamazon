@@ -1,7 +1,7 @@
 var inquirer = require("inquirer");
 
-var Manager = require("./bamazonManager");
-var Customer = require("./bamazonCustomer");
+var manager = require("./bamazonManager");
+var customer = require("./bamazonCustomer");
 
 
 // Prompt for term
@@ -18,10 +18,10 @@ function bamazonWelcome(){
     ]).then(function (action) {
         switch (action.userInput) {
             case "Customer Portal":
-                Customer.customerPortal();
+                customer.customerPortal();
                 break;
             case "Manager Portal":
-                Manager.managerPortal();
+                manager.managerPortal();
                 break;
             case "EXIT":
                 exitHere();
