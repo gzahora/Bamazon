@@ -96,7 +96,7 @@ var Supervisor = {
           if (err) throw err;
           var displayTable = new Table({
             head: ["Department ID", "Department Name", "Over Head Costs", "Total Sales", "Total Profit"],
-            colWidths: [10, 30, 10, 10, 14]
+            colWidths: [10, 25, 20, 20, 14]
           });
           for (var i = 0; i < res.length; i++) {
             displayTable.push(

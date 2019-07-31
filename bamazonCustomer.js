@@ -10,6 +10,10 @@ var mysql = require("mysql");
 
 var Table = require("cli-table");
 
+var newSales = 0;
+var deptName = "";
+var productSales = 0;
+
 var connection = mysql.createConnection({
   host: "localhost",
 
@@ -107,9 +111,11 @@ var Customer = {
               ],
               function (error) {
                 if (error) throw err;
-                console.log("Your purchase of " + input.quantity + " " + input.choice + "s at a price of $" + shoppingCart.price + " each was successful! Your total came to " + "$" + (input.quantity * shoppingCart.price) + ". Thank you for shopping at Bamazon");
+                productSales += newSales;
+                newSales = (input.quantity * shoppingCart.price);
+                deptName = shoppingCart.department_name;
+                console.log("Your purchase of " + input.quantity + " " + input.choice + "s at a price of $" + shoppingCart.price + " each was successful! Your total came to " + "$" + newSales + ". Thank you for shopping at Bamazon");
                 Customer.updateSales();
-                Customer.customerPortal();
               }
             );
           }
@@ -148,20 +154,31 @@ var Customer = {
   },
 
   updateSales: function () {
-    connection.query(
-      "UPDATE departments SET ? WHERE ?",
+    var currentSales = 0;
+    connection.query("SELECT product_sales FROM departments WHERE ?",
       [
         {
-          product_sales: (product_sales + (Customer.userShops.input.quantity * Customer.userShops.shoppingCart.price))
-        },
-        {
-          department_name: Customer.userShops.shoppingCart.department_name
+          department_name: deptName
         }
       ],
       function (err, res) {
         if (err) throw err;
-        console.log(res)
-      });
+        currentSales = res[0].product_sales
+        connection.query(
+          "UPDATE departments SET ? WHERE ?",
+          [
+            {
+              product_sales: currentSales + newSales
+            },
+            {
+              department_name: deptName
+            }
+          ],
+          function (err, res) {
+            if (err) throw err;
+          });
+        Customer.customerPortal();
+      })
   }
 };
-  module.exports = Customer;
+module.exports = Customer;
