@@ -19,7 +19,7 @@ The choices are:
 
 ### **Video Guide**
 
-Watch the video here: 
+Watch the video here: https://drive.google.com/file/d/1cv_WfRzKW4aSivluJzITB6cSDcr-nQ81/view
 
 ### **Instructions**
 
